@@ -24,7 +24,7 @@ def generate_json_file(categorie, titre, url):
     try:
         response = requests.get(url)
     except:
-        print("Exception pour la requete : " + url)
+        print("Exception pour la requete HTTP GET : " + url)
     else:
         try:
             data = json.loads(response.text)
@@ -48,7 +48,7 @@ def generate_json_file(categorie, titre, url):
                 file.close()
                 print("end")
         except:
-            print("Exception data pour l'url : " + url + " - Questionnaire : " + titre)
+            print(f"Exception dans la désérialisation ou l'utilisation des données (questionnaire : {titre}, url: {url})")
 
     
 
