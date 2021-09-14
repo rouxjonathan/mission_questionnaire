@@ -56,10 +56,22 @@ class Questionnaire:
         self.difficulte = difficulte
 
     def from_json_data(data):
+        if not data.get("questions"):
+            return None
+
         questionnaire_data_questions =  data["questions"]
         questions = [Question.from_json_data(i) for i in questionnaire_data_questions]
         # Supprime les questions None (qui n'ont pas pu être crées)
         questions = [i for i in questions if i]
+
+        if not data.get("categorie"):
+            data["categorie"] = "inconnue"
+
+        if not data.get("difficulte"):
+            data["difficulte"] = "inconnue"
+
+        if not data.get("titre"):
+            return None
 
         return Questionnaire(questions, data["categorie"], data["titre"], data["difficulte"])
 
@@ -95,13 +107,14 @@ class Questionnaire:
 
 
 
-# Questionnaire.from_json_file("animaux_leschats_confirme.json").lancer()
+if __name__ == "__main__":
+    # Questionnaire.from_json_file("animaux_leschats_confirme.json").lancer()
 
-if len(sys.argv) < 2:
-    print("ERREUR : Vous devez spécifier le nom du fichier json à charger")
-    exit(0)
+    if len(sys.argv) < 2:
+        print("ERREUR : Vous devez spécifier le nom du fichier json à charger")
+        exit(0)
 
-json_filename = sys.argv[1]
-questionnaire = Questionnaire.from_json_file(json_filename)
-if questionnaire:
-    questionnaire.lancer()
+    json_filename = sys.argv[1]
+    questionnaire = Questionnaire.from_json_file(json_filename)
+    if questionnaire:
+        questionnaire.lancer()
